@@ -1,0 +1,139 @@
+        -:    0:Source:s21_TEST.check
+        -:    0:Graph:test.gcno
+        -:    0:Data:test.gcda
+        -:    0:Runs:26
+        -:    1:#include <string.h>
+        -:    2:#include <stdio.h>
+        -:    3:#include <check.h>
+        -:    4:#include "s21_string.h"
+        -:    5:
+        1:    6:#test len_test_1
+        1:    7:char s1[] = "fffff";
+       1*:    8:ck_assert_uint_eq(strlen(s1), s21_strlen(s1));
+        -:    9:
+        1:   10:#test len_test_empty
+        1:   11:char s1[] = "";
+       1*:   12:ck_assert_uint_eq(strlen(s1), s21_strlen(s1));
+        1:   13:
+        1:   14:#test memset_test_1
+        1:   15:char dest[5] = "";
+        1:   16:int ch = (int)'a';
+       1*:   17:ck_assert_str_eq(memset(dest, ch, 2), s21_memset(dest, ch, 2));
+        -:   18:
+        1:   19:#test memset_test_over
+        1:   20:char dest[5] = "\0";
+        1:   21:int ch = (int)'a';
+       1*:   22:ck_assert_str_eq(memset(dest, ch, 0), s21_memset(dest, ch, 0));
+        -:   23:
+        1:   24:#test strcat_test_add_to_empty
+        1:   25:char dest[10] = "";
+        1:   26:char src[5] = "123";
+       1*:   27:ck_assert_str_eq(strcat(dest, src), s21_strcat(dest, src));
+        -:   28:
+        -:   29:
+        1:   30:#test strcat_test_add_empty
+        1:   31:char dest[10] = "123";
+        1:   32:char src[5] = "";
+       1*:   33:ck_assert_str_eq(strcat(dest, src), s21_strcat(dest, src));
+        -:   34:
+        -:   35:
+        1:   36:#test strcat_test_add_empty_to_empty
+        1:   37:char dest[10] = "";
+        1:   38:char src[5] = "";
+       1*:   39:ck_assert_str_eq(strcat(dest, src), s21_strcat(dest, src));
+        -:   40:
+        1:   41:#test strncat_test_base
+        1:   42:char dest[10] = "qwe";
+        1:   43:char src[5] = "123";
+       1*:   44:ck_assert_str_eq(strncat(dest, src, 2), s21_strncat(dest, src, 2));
+        -:   45:
+        -:   46:
+        1:   47:#test strncat_test_zero
+        1:   48:char dest[10] = "qwe";
+        1:   49:char src[5] = "123";
+       1*:   50:ck_assert_str_eq(strncat(dest, src, 0), s21_strncat(dest, src, 0));
+        -:   51:
+        -:   52:
+        1:   53:#test strncat_test_over
+        1:   54:char dest[10] = "qwe";
+        1:   55:char src[5] = "123";
+       1*:   56:ck_assert_str_eq(strncat(dest, src, 4), s21_strncat(dest, src, 4));
+        -:   57:
+        -:   58:
+        1:   59:#test strchr_1
+        1:   60:const char src[15] = "1234567890";
+       1*:   61:ck_assert_str_eq(strchr(src, '5'), s21_strchr(src, '5'));
+        1:   62:
+        -:   63:
+        1:   64:#test strchr_2
+        1:   65:const char src[15] = "1234567890";
+       1*:   66:ck_assert_pstr_eq(strchr(src, 'a'), s21_strchr(src, 'a'));
+        1:   67:
+        -:   68:
+        1:   69:#test strcmp_1
+        1:   70:const char src1[15] = "1234567890";
+        1:   71:const char src2[15] = "1234567890";
+       1*:   72:ck_assert_int_eq(strcmp(src1, src2), s21_strcmp(src1, src2));
+        -:   73:
+        -:   74:
+        1:   75:#test strcmp_2
+        1:   76:const char src1[15] = "12345";
+        1:   77:const char src2[15] = "1234567890";
+       1*:   78:ck_assert_int_eq(strcmp(src1, src2), s21_strcmp(src1, src2));
+        -:   79:
+        -:   80:
+        1:   81:#test strcmp_3
+        1:   82:const char src1[15] = "1234599999";
+        1:   83:const char src2[15] = "1234567890";
+       1*:   84:ck_assert_int_eq(strcmp(src1, src2), s21_strcmp(src1, src2));
+        -:   85:
+        -:   86:
+        1:   87:#test strcpy_1
+        1:   88:const char str1[15] = "12345678900";
+        -:   89:char str2[20];
+       1*:   90:ck_assert_str_eq(strcpy(str2, str1), s21_strcpy(str2, str1));
+        -:   91:
+        1:   92:#test strcpy_to_empty_2
+        1:   93:const char str1[15] = "";
+        -:   94:char str2[20];
+       1*:   95:ck_assert_str_eq(strcpy(str2, str1), s21_strcpy(str2, str1));
+        -:   96:
+        1:   97:#test strncpy_1
+        1:   98:const char str1[15] = "123345667";
+        -:   99:char str2[20];
+       1*:  100:ck_assert_str_eq(strncpy(str2, str1, 5), s21_strncpy(str2, str1, 5));
+        -:  101:
+        1:  102:#test strncpy_2
+        1:  103:const char str1[15] = "123345667";
+        -:  104:char str2[20];
+       1*:  105:ck_assert_str_eq(strncpy(str2, str1, 13), s21_strncpy(str2, str1, 13));
+        -:  106:
+        1:  107:#test strncpy_3
+        1:  108:const char str1[15] = "";
+        -:  109:char str2[20];
+       1*:  110:ck_assert_str_eq(strncpy(str2, str1, 5), s21_strncpy(str2, str1, 5));
+        -:  111:
+        1:  112:#test strncpy_4
+        1:  113:const char str1[15] = "123345667";
+        -:  114:char str2[20];
+       1*:  115:ck_assert_str_eq(strncpy(str2, str1, 0), s21_strncpy(str2, str1, 0));
+        -:  116:
+        1:  117:#test strcspn_1
+        1:  118:const char str1[] = "LOST: 4-8-15-16-23-42";
+        1:  119:const char str2[] = "1234567890";
+       1*:  120:ck_assert_uint_eq(strcspn(str1, str2), s21_strcspn(str1, str2));
+        -:  121:
+        1:  122:#test strcspn_2
+        1:  123:const char str1[] = "LOST: 4-8-15-16-23-42";
+        1:  124:const char str2[] = "123567890";
+       1*:  125:ck_assert_uint_eq(strcspn(str1, str2), s21_strcspn(str1, str2));
+        -:  126:
+        1:  127:#test strcspn_3
+        1:  128:const char str1[] = "LOST: ";
+        1:  129:const char str2[] = "1234567890";
+       1*:  130:ck_assert_uint_eq(strcspn(str1, str2), s21_strcspn(str1, str2));
+        -:  131:
+        1:  132:#test strcspn_4
+        1:  133:const char str1[] = "";
+        1:  134:const char str2[] = "1234567890";
+       1*:  135:ck_assert_uint_eq(strcspn(str1, str2), s21_strcspn(str1, str2));
